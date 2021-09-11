@@ -5,6 +5,11 @@ const compareFileByCreatedTime = (one, two) => {
 	return one.stat.ctime > two.stat.ctime ? -1 : 1;
 }
 
+const compareFileByModifiedTime = (one, two) => {
+	if (one.stat.mtime == two.stat.mtime) return 0;
+	return one.stat.mtime > two.stat.mtime ? -1 : 1;
+}
+
 const reversed = (func) => {
 	return (one,two) => func(one, two) * -1
 }

@@ -30,35 +30,43 @@ class NextByDatePlugin extends obsidian.Plugin {
 	}
 
 	nextByCreatedDate() {
-		new Notice('Not yet implemented');
+		this.navigateToAdjacentFile(false);
 	}
 
 	previousByCreatedDate() {
-		new Notice('Not yet implemented');
+		this.navigateToAdjacentFile(true);
 	}
 
-	folderOfActiveLeaf() {
+	navigateToAdjacentFile(movePrevious) {
+		const file = this.activeLeafFile();
+		if (!file) {
+			new Notice('No active file');
+			return;
+		}
+		const folder = file.parent;
+		if (!folder) {
+			new Notice('No containing folder');
+			return;
+		}
+
+		let adjacentFile = null;
+
+		//TODO: set adjacentFile to next file in folder
+
+		if (!adjacentFile) {
+			new Notice('No other file');
+			return;
+		}
+
+		this.app.workspace.activeLeaf.openFile(adjacentFile);
+
+	}
+
+	activeLeafFile() {
 		if (!this.app.workspace.activeLeaf) {
 			return null;
 		}
-		const activeLeaf = this.app.workspace.activeLeaf;
-		if (!activeLeaf.view.file) {
-			return null;
-		}
-		return activeLeaf.view.file.parent;
-	}
-
-	navigateToRandomNoteInFolder(folder) {
-		if (!folder || !folder.children) {
-			new Notice('Invalid folder.');
-			return;
-		}
-		const randomChild = this.randomFileInFolder(folder);
-		if (!randomChild) {
-			new Notice('No files in that folder.');
-			return;
-		}
-		this.app.workspace.activeLeaf.openFile(randomChild);
+		return this.app.workspace.activeLeaf.view.file;
 	}
 }
 

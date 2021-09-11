@@ -9,7 +9,7 @@ const reversed = (func) => {
 	return (one,two) => func(one, two) * -1
 }
 
-class NextByDatePlugin extends obsidian.Plugin {
+class NextFilePlugin extends obsidian.Plugin {
 
 	async onload() {
 
@@ -106,4 +106,4 @@ class NextByDatePlugin extends obsidian.Plugin {
 	}
 }
 
-module.exports = NextByDatePlugin;
+module.exports = NextFilePlugin;

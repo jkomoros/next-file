@@ -17,13 +17,7 @@ class NextByDatePlugin extends obsidian.Plugin {
 			id: 'next-by-created-date',
 			name: 'Navigate to next file in current folder (by file creation date)',
 			checkCallback: (checking) => {
-				const compare = compareFileByCreatedTime;
-				if (checking) {
-					const file = this.getAdjacentFile(compare);
-					return file ? true : false;
-				}
-				this.navigateToAdjacentFile(compare);
-				return true;
+				return this.checkCallback(checking, compareFileByCreatedTime);
 			},
 			hotkeys: [
 				{
@@ -37,13 +31,7 @@ class NextByDatePlugin extends obsidian.Plugin {
 			id: 'previous-by-created-date',
 			name: 'Navigate to previous file in current folder (by file creation date)',
 			checkCallback: (checking) => {
-				const compare = reversed(compareFileByCreatedTime);
-				if (checking) {
-					const file = this.getAdjacentFile(compare);
-					return file ? true : false;
-				}
-				this.navigateToAdjacentFile(compare);
-				return true;
+				return this.checkCallback(checking, reversed(compareFileByCreatedTime));
 			},
 			hotkeys: [
 				{
@@ -52,6 +40,15 @@ class NextByDatePlugin extends obsidian.Plugin {
 				}
 			]
 		})
+	}
+
+	checkCallback(checking, compare) {
+		if (checking) {
+			const file = this.getAdjacentFile(compare);
+			return file ? true : false;
+		}
+		this.navigateToAdjacentFile(compare);
+		return true;
 	}
 
 	getAdjacentFile(compare) {

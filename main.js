@@ -16,7 +16,14 @@ class NextByDatePlugin extends obsidian.Plugin {
 		this.addCommand({
 			id: 'next-by-created-date',
 			name: 'Navigate to next file in current folder (by file creation date)',
-			callback: () => this.nextByCreatedDate(),
+			checkCallback: (checking) => {
+				if (checking) {
+					const file = this.getAdjacentFile(false);
+					return file ? true : false;
+				}
+				this.navigateToAdjacentFile(false);
+				return true;
+			},
 			hotkeys: [
 				{
 					modifiers:['Mod', 'Alt'],
@@ -28,7 +35,14 @@ class NextByDatePlugin extends obsidian.Plugin {
 		this.addCommand({
 			id: 'previous-by-created-date',
 			name: 'Navigate to previous file in current folder (by file creation date)',
-			callback: () => this.previousByCreatedDate(),
+			checkCallback: (checking) => {
+				if (checking) {
+					const file = this.getAdjacentFile(true);
+					return file ? true : false;
+				}
+				this.navigateToAdjacentFile(true);
+				return true;
+			},
 			hotkeys: [
 				{
 					modifiers:['Mod', 'Alt'],
@@ -38,26 +52,15 @@ class NextByDatePlugin extends obsidian.Plugin {
 		})
 	}
 
-	nextByCreatedDate() {
-		this.navigateToAdjacentFile(false);
-	}
-
-	previousByCreatedDate() {
-		this.navigateToAdjacentFile(true);
-	}
-
-	navigateToAdjacentFile(movePrevious) {
+	getAdjacentFile(movePrevious) {
 		const currentFile = this.activeLeafFile();
-		if (!currentFile) {
-			new Notice('No active file');
-			return;
-		}
+		if (!currentFile) return null;
 		const folder = currentFile.parent;
-		if (!folder) {
-			new Notice('No containing folder');
-			return;
-		}
+		if (!folder) return null;
+		return this.adjacentFile(movePrevious, currentFile, folder);
+	}
 
+	adjacentFile(movePrevious, currentFile, folder) {
 		let compare = compareFileByCreatedTime;
 		if (movePrevious) compare = reversed(compare);
 
@@ -73,6 +76,22 @@ class NextByDatePlugin extends obsidian.Plugin {
 			if (adjacentFile && compare(adjacentFile, file) > 0) continue;
 			adjacentFile = file;
 		}
+		return adjacentFile;
+	}
+
+	navigateToAdjacentFile(movePrevious) {
+		const currentFile = this.activeLeafFile();
+		if (!currentFile) {
+			new Notice('No active file');
+			return;
+		}
+		const folder = currentFile.parent;
+		if (!folder) {
+			new Notice('No containing folder');
+			return;
+		}
+
+		const adjacentFile = this.adjacentFile(movePrevious, currentFile, folder);
 
 		if (!adjacentFile) {
 			new Notice('No other file in that direction');

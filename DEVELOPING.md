@@ -6,7 +6,7 @@ Within your filesytem, navigate to `$VAULT_DIR/.obsidian/plugins/` (creating the
 
 `git clone` this repo.
 
-Restart Obsidian and go to Community Plugins and enable `Next By Date`.
+Restart Obsidian and go to Community Plugins and enable `Next File By Date`.
 
 ## Publishing a new release
 

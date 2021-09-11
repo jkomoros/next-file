@@ -38,23 +38,38 @@ class NextByDatePlugin extends obsidian.Plugin {
 	}
 
 	navigateToAdjacentFile(movePrevious) {
-		const file = this.activeLeafFile();
-		if (!file) {
+		const currentFile = this.activeLeafFile();
+		if (!currentFile) {
 			new Notice('No active file');
 			return;
 		}
-		const folder = file.parent;
+		const folder = currentFile.parent;
 		if (!folder) {
 			new Notice('No containing folder');
 			return;
 		}
 
 		let adjacentFile = null;
-
-		//TODO: set adjacentFile to next file in folder
+		for (const file of folder.children) {
+			//Skip folders
+			if (file.children) continue;
+			//Skip the current file
+			if (file.name == currentFile.name) continue;
+			//Bail out of if this file isn't oh the correct side of curent file, and closer to the current file than the last good one we found
+			if (movePrevious) {
+				if (file.stat.ctime > currentFile.stat.ctime) continue;
+				//TODO: is this logic correct?
+				if (adjacentFile && adjacentFile.stat.ctime < file.stat.ctime) continue;
+			} else {
+				if (file.stat.ctime < currentFile.stat.ctime) continue;
+				if (adjacentFile && adjacentFile.stat.ctime > file.stat.ctime) continue;
+			}
+			//We found a new one that's closer
+			adjacentFile = file;
+		}
 
 		if (!adjacentFile) {
-			new Notice('No other file');
+			new Notice('No other file in that direction');
 			return;
 		}
 

@@ -17,11 +17,12 @@ class NextByDatePlugin extends obsidian.Plugin {
 			id: 'next-by-created-date',
 			name: 'Navigate to next file in current folder (by file creation date)',
 			checkCallback: (checking) => {
+				const compare = compareFileByCreatedTime;
 				if (checking) {
-					const file = this.getAdjacentFile(false);
+					const file = this.getAdjacentFile(compare);
 					return file ? true : false;
 				}
-				this.navigateToAdjacentFile(false);
+				this.navigateToAdjacentFile(compare);
 				return true;
 			},
 			hotkeys: [
@@ -36,11 +37,12 @@ class NextByDatePlugin extends obsidian.Plugin {
 			id: 'previous-by-created-date',
 			name: 'Navigate to previous file in current folder (by file creation date)',
 			checkCallback: (checking) => {
+				const compare = reversed(compareFileByCreatedTime);
 				if (checking) {
-					const file = this.getAdjacentFile(true);
+					const file = this.getAdjacentFile(compare);
 					return file ? true : false;
 				}
-				this.navigateToAdjacentFile(true);
+				this.navigateToAdjacentFile(compare);
 				return true;
 			},
 			hotkeys: [
@@ -52,18 +54,15 @@ class NextByDatePlugin extends obsidian.Plugin {
 		})
 	}
 
-	getAdjacentFile(movePrevious) {
+	getAdjacentFile(compare) {
 		const currentFile = this.activeLeafFile();
 		if (!currentFile) return null;
 		const folder = currentFile.parent;
 		if (!folder) return null;
-		return this.adjacentFile(movePrevious, currentFile, folder);
+		return this.adjacentFile(compare, currentFile, folder);
 	}
 
-	adjacentFile(movePrevious, currentFile, folder) {
-		let compare = compareFileByCreatedTime;
-		if (movePrevious) compare = reversed(compare);
-
+	adjacentFile(compare, currentFile, folder) {
 		let adjacentFile = null;
 		for (const file of folder.children) {
 			//Skip folders
@@ -79,7 +78,7 @@ class NextByDatePlugin extends obsidian.Plugin {
 		return adjacentFile;
 	}
 
-	navigateToAdjacentFile(movePrevious) {
+	navigateToAdjacentFile(compare) {
 		const currentFile = this.activeLeafFile();
 		if (!currentFile) {
 			new Notice('No active file');
@@ -91,7 +90,7 @@ class NextByDatePlugin extends obsidian.Plugin {
 			return;
 		}
 
-		const adjacentFile = this.adjacentFile(movePrevious, currentFile, folder);
+		const adjacentFile = this.adjacentFile(compare, currentFile, folder);
 
 		if (!adjacentFile) {
 			new Notice('No other file in that direction');

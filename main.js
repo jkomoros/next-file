@@ -10,6 +10,11 @@ const compareFileByModifiedTime = (one, two) => {
 	return one.stat.mtime > two.stat.mtime ? -1 : 1;
 }
 
+const compareFileByName = (one, two) => {
+	if (one.name == two.name) return 0;
+	return one.name > two.name ? -1 : 1;
+}
+
 const reversed = (func) => {
 	return (one,two) => func(one, two) * -1
 }
@@ -21,6 +26,8 @@ const NEXT_BY_CREATED_DATE = 'next-by-created-date';
 const PREV_BY_CREATED_DATE = 'prev-by-created-date';
 const NEXT_BY_MODIFIED_DATE = 'next-by-modified-date';
 const PREV_BY_MODIFIED_DATE = 'prev-by-modified-date';
+const NEXT_BY_NAME = 'next-by-name';
+const PREV_BY_NAME = 'prev-by-name';
 
 class NextFilePlugin extends obsidian.Plugin {
 
@@ -67,6 +74,22 @@ class NextFilePlugin extends obsidian.Plugin {
 			name: 'Previous Modified' +  PREV_DESCRIPTION_MIDDLE + 'modification date',
 			checkCallback: (checking) => {
 				return this.checkCallback(checking, reversed(compareFileByModifiedTime));
+			}
+		})
+
+		this.addCommand({
+			id: NEXT_BY_NAME,
+			name: 'Next Name' + NEXT_DESCRIPTION_MIDDLE + 'name',
+			checkCallback: (checking) => {
+				return this.checkCallback(checking, compareFileByName);
+			}
+		});
+
+		this.addCommand({
+			id: PREV_BY_NAME,
+			name: 'Previous Name' +  PREV_DESCRIPTION_MIDDLE + 'name',
+			checkCallback: (checking) => {
+				return this.checkCallback(checking, reversed(compareFileByName));
 			}
 		})
 	}

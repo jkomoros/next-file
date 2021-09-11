@@ -8,5 +8,7 @@ This plugin adds two commands, which you can run from the command pane or by ass
 - **Previous Created - Navigate to previous file in current folder by file creation date** - (Default: ⌘⎇↑) Navigates to the previous file in the current folder, comparing files based on creation time.
 - **Next Modified - Navigate to next file in current folder by file modification date** - Navigates to the next file in the current folder, comparing files based on modification time.
 - **Previous Modified - Navigate to previous file in current folder by file modification date** - Navigates to the previous file in the current folder, comparing files based on modification time.
+- **Next Name - Navigate to next file in current folder by file name** - Navigates to the next file in the current folder, comparing files based on name.
+- **Previous Name - Navigate to previous file in current folder by file name** - Navigates to the previous file in the current folder, comparing files based on name.
 
 See DEVELOPING.md in this repo for instructions on how to install this plugin manually.

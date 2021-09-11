@@ -19,6 +19,8 @@ const PREV_DESCRIPTION_MIDDLE = ' - Navigate to previous file in current folder 
 
 const NEXT_BY_CREATED_DATE = 'next-by-created-date';
 const PREV_BY_CREATED_DATE = 'prev-by-created-date';
+const NEXT_BY_MODIFIED_DATE = 'next-by-modified-date';
+const PREV_BY_MODIFIED_DATE = 'prev-by-modified-date';
 
 class NextFilePlugin extends obsidian.Plugin {
 
@@ -50,6 +52,22 @@ class NextFilePlugin extends obsidian.Plugin {
 					key: 'ArrowUp',
 				}
 			]
+		})
+
+		this.addCommand({
+			id: NEXT_BY_MODIFIED_DATE,
+			name: 'Next Modified' + NEXT_DESCRIPTION_MIDDLE + 'modification date',
+			checkCallback: (checking) => {
+				return this.checkCallback(checking, compareFileByModifiedTime);
+			}
+		});
+
+		this.addCommand({
+			id: PREV_BY_MODIFIED_DATE,
+			name: 'Previous Modified' +  PREV_DESCRIPTION_MIDDLE + 'modification date',
+			checkCallback: (checking) => {
+				return this.checkCallback(checking, reversed(compareFileByModifiedTime));
+			}
 		})
 	}
 

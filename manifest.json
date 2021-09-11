@@ -1,9 +1,9 @@
 {
-	"id": "next-by-date",
-	"name": "Next File By Date",
+	"id": "next-file",
+	"name": "Next File",
 	"version": "0.1",
 	"minAppVersion": "0.12.12",
-	"description": "Navigate to the next or previous file in the current folder, by file creation date",
+	"description": "Navigate to the next or previous file in the current folder, using different sort orders",
 	"author": "Alex Komoroske",
 	"authorUrl": "https://github.com/jkomoros",
 	"isDesktopOnly": false

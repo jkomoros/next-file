@@ -1,6 +1,6 @@
-# Next File By Date
+# Next File
 
-Next File By Date is a plugin for Obsidian that allows you to navigate to the next or previous file within the current folder, by file creation date.
+Next File is a plugin for Obsidian that allows you to navigate to the next or previous file within the current folder, by file creation date.
 
 ## Features
 This plugin adds two commands, which you can run from the command pane or by assigning a hotkey. Both commands operate relative to the active pane's current file.

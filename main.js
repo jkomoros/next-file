@@ -14,12 +14,15 @@ const reversed = (func) => {
 	return (one,two) => func(one, two) * -1
 }
 
+const NEXT_BY_CREATED_DATE = 'next-by-created-date';
+const PREV_BY_CREATED_DATE = 'previous-by-created-date';
+
 class NextFilePlugin extends obsidian.Plugin {
 
 	async onload() {
 
 		this.addCommand({
-			id: 'next-by-created-date',
+			id: NEXT_BY_CREATED_DATE,
 			name: 'Navigate to next file in current folder (by file creation date)',
 			checkCallback: (checking) => {
 				return this.checkCallback(checking, compareFileByCreatedTime);
@@ -33,7 +36,7 @@ class NextFilePlugin extends obsidian.Plugin {
 		});
 
 		this.addCommand({
-			id: 'previous-by-created-date',
+			id: PREV_BY_CREATED_DATE,
 			name: 'Navigate to previous file in current folder (by file creation date)',
 			checkCallback: (checking) => {
 				return this.checkCallback(checking, reversed(compareFileByCreatedTime));

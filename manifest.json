@@ -1,6 +1,6 @@
 {
 	"id": "next-by-date",
-	"name": "Next By Date",
+	"name": "Next File By Date",
 	"version": "0.1",
 	"minAppVersion": "0.12.12",
 	"description": "Navigate to the next or previous file in the current folder, by file creation date",

@@ -2,7 +2,7 @@ const obsidian = require('obsidian');
 
 const compareFileByCreatedTime = (one, two) => {
 	if (one.stat.ctime == two.stat.ctime) return 0;
-	return one.stat.ctime < two.stat.ctime ? -1 : 1;
+	return one.stat.ctime > two.stat.ctime ? -1 : 1;
 }
 
 const reversed = (func) => {

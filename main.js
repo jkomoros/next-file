@@ -18,7 +18,7 @@ const NEXT_DESCRIPTION_MIDDLE = ' - Navigate to next file in current folder by f
 const PREV_DESCRIPTION_MIDDLE = ' - Navigate to previous file in current folder by file ';
 
 const NEXT_BY_CREATED_DATE = 'next-by-created-date';
-const PREV_BY_CREATED_DATE = 'previous-by-created-date';
+const PREV_BY_CREATED_DATE = 'prev-by-created-date';
 
 class NextFilePlugin extends obsidian.Plugin {
 

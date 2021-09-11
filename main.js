@@ -1,5 +1,14 @@
 const obsidian = require('obsidian');
 
+const compareFileByCreatedTime = (one, two) => {
+	if (one.stat.ctime == two.stat.ctime) return 0;
+	return one.stat.ctime < two.stat.ctime ? -1 : 1;
+}
+
+const reversed = (func) => {
+	return (one,two) => func(one, two) * -1
+}
+
 class NextByDatePlugin extends obsidian.Plugin {
 
 	async onload() {
@@ -49,22 +58,19 @@ class NextByDatePlugin extends obsidian.Plugin {
 			return;
 		}
 
+		let compare = compareFileByCreatedTime;
+		if (movePrevious) compare = reversed(compare);
+
 		let adjacentFile = null;
 		for (const file of folder.children) {
 			//Skip folders
 			if (file.children) continue;
 			//Skip the current file
 			if (file.name == currentFile.name) continue;
-			//Bail out of if this file isn't oh the correct side of curent file, and closer to the current file than the last good one we found
-			if (movePrevious) {
-				if (file.stat.ctime > currentFile.stat.ctime) continue;
-				//TODO: is this logic correct?
-				if (adjacentFile && adjacentFile.stat.ctime < file.stat.ctime) continue;
-			} else {
-				if (file.stat.ctime < currentFile.stat.ctime) continue;
-				if (adjacentFile && adjacentFile.stat.ctime > file.stat.ctime) continue;
-			}
-			//We found a new one that's closer
+			//Bail if the file isn't on the "right" side of the current file
+			if (compare(currentFile, file) < 0) continue;
+			//Bail if the file isn't closer to the current file than one we've already found
+			if (adjacentFile && compare(adjacentFile, file) > 0) continue;
 			adjacentFile = file;
 		}
 

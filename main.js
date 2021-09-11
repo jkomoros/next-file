@@ -23,7 +23,7 @@ class NextFilePlugin extends obsidian.Plugin {
 
 		this.addCommand({
 			id: NEXT_BY_CREATED_DATE,
-			name: 'Navigate to next file in current folder (by file creation date)',
+			name: 'Next Created - Navigate to next file in current folder by file creation date',
 			checkCallback: (checking) => {
 				return this.checkCallback(checking, compareFileByCreatedTime);
 			},
@@ -37,7 +37,7 @@ class NextFilePlugin extends obsidian.Plugin {
 
 		this.addCommand({
 			id: PREV_BY_CREATED_DATE,
-			name: 'Navigate to previous file in current folder (by file creation date)',
+			name: 'Previous Created - Navigate to previous file in current folder by file creation date',
 			checkCallback: (checking) => {
 				return this.checkCallback(checking, reversed(compareFileByCreatedTime));
 			},
